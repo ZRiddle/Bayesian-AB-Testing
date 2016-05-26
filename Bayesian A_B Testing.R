@@ -5,7 +5,7 @@
 
 library(RODBC);
 
-strDBserver = "ESSBODB"
+strDBserver = ""
 dbhandle <-odbcConnect(strDBserver)
 cat(paste("Connected to Database",strDBserver, "\n"))
 
@@ -13,25 +13,7 @@ start_date<-'2014-06-30'
 end_date<-'2014-07-15'
 test_name<-'%FAQ%'
 
-query<-paste("SELECT CASE WHEN test_grp LIKE '%Default%' THEN 'Default' ELSE test_grp END test_grp,
-             COUNT(*) Visitors,
-             SUM(CASE WHEN purchaseID IS NOT NULL THEN 1 ELSE 0 END) reserves
-             FROM(
-             SELECT visid_compound,
-             post_evar26 test_grp,
-             max(PURCHASEID) purchaseid
-             FROM   ESSCLICKSTREAM
-             WHERE  date_time >= \'",start_date,"\'
-             AND date_time <= \'",end_date,"\'
-             AND post_evar26 like \'",test_name,"\'
-             AND VISID_COMPOUND IN (SELECT distinct VISID_COMPOUND
-             FROM   ESSCLICKSTREAM 
-             WHERE  date_time >= \'",start_date,"\' AND date_time<= \'",end_date,"\'
-             AND evar26 LIKE \'",test_name,"\'
-             GROUP  BY VISID_COMPOUND)
-             GROUP BY visid_compound, POST_EVAR26) x
-             GROUP BY test_grp
-             ORDER BY CASE WHEN test_grp = 'Default' THEN 1 ELSE 2 END",sep="")
+query<-paste("")
 
 
 inputs <- sqlQuery(dbhandle, query);
